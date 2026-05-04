@@ -211,7 +211,7 @@ export default function RobotCanvas() {
   return (
     <div
       className="relative h-full w-full"
-      style={{ cursor: hovered ? "pointer" : "default" }}
+      style={{ cursor: hovered ? "pointer" : "default", touchAction: "pan-y" }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -223,6 +223,7 @@ export default function RobotCanvas() {
         dpr={[1, 2]}
         camera={{ position: [0, 0, 22], fov: 24 }}
         gl={{ preserveDrawingBuffer: true }}
+        onCreated={({ gl }) => { gl.domElement.style.touchAction = "pan-y"; }}
       >
         <ambientLight intensity={0.5} />
         <directionalLight position={[4, 8, 4]} intensity={1.2} castShadow />

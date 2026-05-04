@@ -199,10 +199,11 @@ export default function Zetatron() {
                   placeholder="Ask about Abiel..."
                   maxLength={500}
                   disabled={loading}
-                  className="flex-1 bg-transparent text-xs text-white/70 outline-none placeholder:text-white/25 disabled:opacity-50"
+                  className="flex-1 bg-transparent text-white/70 outline-none placeholder:text-white/25 disabled:opacity-50"
                   style={{
                     fontFamily: "var(--font-space-mono)",
                     caretColor: AMBER,
+                    fontSize: "16px",
                   }}
                 />
                 <button
