@@ -88,6 +88,10 @@ export default function Hero() {
         <RobotCanvas />
       </div>
 
+      {/* Mobile scroll zones: sit above the canvas so touch-starts here reach the page scroller, not WebGL */}
+      <div className="pointer-events-auto absolute inset-x-0 top-0 z-[15] h-40 md:hidden" />
+      <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-[15] h-40 md:hidden" />
+
       {/* Name + role overlay at the top */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center pt-20 md:pt-24">
         <h1 className="hero-name mb-3 font-mono text-3xl font-extralight tracking-tight sm:text-4xl md:text-5xl">
