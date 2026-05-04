@@ -11,6 +11,11 @@ const ParticleField = dynamic(() => import("./ParticleField"), {
   loading: () => <div className="absolute inset-0 bg-bg" />,
 });
 
+const RobotCanvas = dynamic(() => import("./RobotCanvas"), {
+  ssr: false,
+  loading: () => null,
+});
+
 const ROLES = [
   "Software Engineer",
   "Machine Learning Engineer",
@@ -47,29 +52,13 @@ export default function Hero() {
       })
         .from(
           ".hero-role",
-          { y: 30, opacity: 0, duration: 0.8, ease: "power3.out" },
-          "-=0.3"
-        )
-        .from(
-          ".hero-desc",
-          { y: 20, opacity: 0, duration: 0.8, ease: "power3.out" },
-          "-=0.5"
-        )
-        .to(
-          ".hero-cta",
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "power3.out",
-          },
-          "-=0.4"
+          { y: 20, opacity: 0, duration: 0.6, ease: "power3.out" },
+          "-=0.2"
         )
         .to(
           ".hero-scroll",
           { opacity: 1, duration: 1, ease: "power2.out" },
-          "-=0.2"
+          "-=0.1"
         )
         .call(() => setHeroReady(true));
     },
@@ -81,19 +70,27 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative flex h-screen items-center justify-center overflow-hidden"
+      className="relative h-screen overflow-hidden"
     >
+      {/* Background particle field */}
       <div className="absolute inset-0">
         <ParticleField />
       </div>
 
+      {/* Vignette */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#050505_70%)]"
       />
 
-      <div className="relative z-10 px-6 text-center">
-        <h1 className="hero-name mb-4 font-mono text-5xl font-extralight tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
+      {/* Robot \u2014 fills the full section */}
+      <div className="absolute inset-0 z-10">
+        <RobotCanvas />
+      </div>
+
+      {/* Name + role overlay at the top */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center pt-20 md:pt-24">
+        <h1 className="hero-name mb-3 font-mono text-3xl font-extralight tracking-tight sm:text-4xl md:text-5xl">
           {name.split("").map((char, i) => (
             <span key={i} className="inline-block overflow-hidden align-bottom">
               <span className="rv-char inline-block text-white/90">
@@ -103,58 +100,25 @@ export default function Hero() {
           ))}
         </h1>
 
-        <div className="hero-role mb-6 h-6 overflow-hidden md:h-7">
+        <div className="hero-role h-5 overflow-hidden md:h-6">
           <AnimatePresence mode="wait">
             <motion.p
               key={roleIndex}
-              initial={{ y: 20, opacity: 0 }}
+              initial={{ y: 16, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
+              exit={{ y: -16, opacity: 0 }}
               transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="font-mono text-sm tracking-[0.3em] uppercase md:text-base"
+              className="font-mono text-xs tracking-[0.3em] uppercase text-white/40 md:text-sm"
             >
               {ROLES[roleIndex]}
             </motion.p>
           </AnimatePresence>
         </div>
-
-        <p className="hero-desc mx-auto max-w-lg text-base leading-relaxed text-white/45 md:text-lg">
-          Build production grade software. Integrate deep learning pipelines.
-          Scale. Optimize. Repeat.
-        </p>
-        {/* 
-        <div className="mt-8 flex items-center justify-center gap-4">
-          <a
-            href="#contact"
-            style={{ opacity: 0, transform: "translateY(20px)" }}
-            className="hero-cta rounded-full bg-white/90 px-6 py-2.5 font-mono text-xs font-medium tracking-wider text-black transition-all hover:bg-white"
-            onClick={(e) => {
-              e.preventDefault();
-              document
-                .getElementById("contact")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            Contact
-          </a>
-          <a
-            href="#projects"
-            style={{ opacity: 0, transform: "translateY(20px)" }}
-            className="hero-cta rounded-full border border-white/10 bg-white/[0.04] px-6 py-2.5 font-mono text-xs tracking-wider text-white/70 transition-all hover:border-white/20 hover:bg-white/[0.08]"
-            onClick={(e) => {
-              e.preventDefault();
-              document
-                .getElementById("projects")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            View Work
-          </a>
-        </div> */}
       </div>
 
+      {/* Scroll indicator */}
       <div
-        className="hero-scroll absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="hero-scroll pointer-events-none absolute bottom-8 left-1/2 z-20 -translate-x-1/2"
         style={{ opacity: 0 }}
       >
         <motion.div
